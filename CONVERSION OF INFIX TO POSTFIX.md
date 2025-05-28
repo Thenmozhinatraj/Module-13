@@ -30,41 +30,42 @@ To write a Python program to convert a given Infix expression to Postfix express
 ### PROGRAM
 
 ```python
-Op = set(['+','*','+','(',')'])
-pr= {'+':1,'*':2} 
- 
- 
-def infixToPostfix(exp): 
+operators = set(['-', '*'])
+priority = {'-': 1, '*': 2}
 
-    stack = [] 
-    otp = '' 
+def infixToPostfix(expression):
+    stack = []
+    output = ''
     
-    for char in exp:
-        if char not in Op:
-            otp+=char
-        elif char=='(':
-            stack.extend('(')
-        elif char==')':
-            while stack and stack[-1]!='(':
-                otp+=stack.pop()
-            stack.pop()
-        else:
-            while stack and stack[-1]!='('and pr[char]<=pr[stack[-1]]:
-                otp+=stack.pop()
+    for char in expression:
+        if char.isnumeric():
+            output += char
+        elif char in operators:
+            while stack and stack[-1] in operators and priority[char] <= priority[stack[-1]]:
+                output += stack.pop()
             stack.append(char)
-    while stack:
-        otp+=stack.pop()# Write your code here
+        elif char == '(':
+            stack.append(char)
+        elif char == ')':
+            while stack and stack[-1] != '(':
+                output += stack.pop()
+            stack.pop()
     
-    return otp
-exp =input()
-print('Infix notation: ',exp)
+    while stack:
+        output += stack.pop()
+    
+    return output
 
-print('Postfix notation: ',infixToPostfix(exp))
+expression = input()
+print("infix notation: ", expression)
+print("postfix notation: ", infixToPostfix(expression))
+
 ```
 
 ### OUTPUT
 
-![Screenshot 2025-05-02 195654](https://github.com/user-attachments/assets/4822f619-17a2-4ba6-b259-2bed798c5338)
+![image](https://github.com/user-attachments/assets/c5d52f39-042e-4754-9bcd-ce0ebccb2196)
+
 
 ### RESULT
 Thus, the program executed successfully and the output is verified.
